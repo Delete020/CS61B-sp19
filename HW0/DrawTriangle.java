@@ -1,6 +1,6 @@
 package HW0;
 
-public class C {
+public class DrawTriangle {
     public static void DrawTriangle(int n){
         int j=0;
         while (j<n) {
