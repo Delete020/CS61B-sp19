@@ -88,14 +88,14 @@ public class ArrayDeque<T> {
     /**
      * Move one step to the left.
      */
-    public int moveRight(int move) {
+    private int moveRight(int move) {
         return (move + 1) % items.length;
     }
 
     /**
      * Move one step to the right.
      */
-    public int moveLeft(int move) {
+    private int moveLeft(int move) {
         return (items.length + move - 1) % items.length;
     }
 
@@ -109,14 +109,14 @@ public class ArrayDeque<T> {
     /**
      * Returns true if deque is full, false otherwise.
      */
-    public boolean isFull() {
+    private boolean isFull() {
         return moveRight(last) == front;
     }
 
     /**
      * Returns true if deque has too much spare, false otherwise.
      */
-    public boolean spare() {
+    private boolean spare() {
         return size < items.length / 4 && items.length > 8;
     }
 
@@ -146,7 +146,7 @@ public class ArrayDeque<T> {
     /**
      * When the array is full, expand the size.
      */
-    public void increaseSize() {
+    private void increaseSize() {
         T[] newItems = (T[]) new Object[items.length * 2];
         if (front < last) {
             System.arraycopy(items, 1, newItems, 1, last);
@@ -162,7 +162,7 @@ public class ArrayDeque<T> {
     /**
      * When the array has too much spare, decrease the size.
      */
-    public void decreaseSize() {
+    private void decreaseSize() {
         T[] newItems = (T[]) new Object[items.length / 2];
         int oldFront = moveRight(front);
         for (int i = 1; i < size; i++) {
