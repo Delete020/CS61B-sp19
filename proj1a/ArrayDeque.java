@@ -165,7 +165,7 @@ public class ArrayDeque<T> {
     private void decreaseSize() {
         T[] newItems = (T[]) new Object[items.length / 2];
         int oldFront = moveRight(front);
-        for (int i = 1; i < size; i++) {
+        for (int i = 1; i < size + 1; i++) {
             newItems[i] = items[oldFront];
             oldFront = moveRight(oldFront);
         }
