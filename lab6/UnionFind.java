@@ -1,6 +1,6 @@
 public class UnionFind {
 
-    int[] array;
+    private int[] array;
 
     /* Creates a UnionFind data structure holding n vertices. Initially, all
        vertices are in disjoint sets. */
@@ -20,6 +20,7 @@ public class UnionFind {
 
     /* Returns the size of the set v1 belongs to. */
     public int sizeOf(int v1) {
+        validate(v1);
         while (array[v1] > 0) {
             v1 = array[v1];
         }
@@ -29,11 +30,8 @@ public class UnionFind {
     /* Returns the parent of v1. If v1 is the root of a tree, returns the
        negative size of the tree for which v1 is the root. */
     public int parent(int v1) {
-        if (v1 < 0) {
-            return -sizeOf(v1);
-        } else {
-            return array[v1];
-        }
+        validate(v1);
+        return array[v1];
     }
 
     /* Returns true if nodes v1 and v2 are connected. */
