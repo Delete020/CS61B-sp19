@@ -25,7 +25,7 @@ public class KDTree implements PointSet {
         if (n == null) {
             return best;
         }
-        if (distance(n.point, goal) < distance(best, goal)) {
+        if (Double.compare(distance(n.point, goal), distance(best, goal)) < 0) {
             best = n.point;
         }
 
@@ -46,7 +46,7 @@ public class KDTree implements PointSet {
         }
 
         best = nearest(goodSide, goal, best);
-        if (distance(bestBadSidePoint, goal) < distance(best, goal)) {
+        if (Double.compare(distance(bestBadSidePoint, goal), distance(best, goal)) < 0) {
             best = nearest(badSide, goal, best);
         }
         return best;

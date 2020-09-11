@@ -47,8 +47,8 @@ public class KDTreeTest {
 
     @Test
     public void nearestCorrectTest() {
-        int pointCount = 100000;
-        int queryCount = 10000;
+        int pointCount = 200000;
+        int queryCount = 20000;
         nearestTestWithPointCountAndQueries(pointCount, queryCount);
     }
 
