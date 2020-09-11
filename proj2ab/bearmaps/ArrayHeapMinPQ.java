@@ -5,10 +5,10 @@ import java.util.NoSuchElementException;
 
 public class ArrayHeapMinPQ<T> implements ExtrinsicMinPQ<T> {
 
+    private final HashMap<T, Integer> map;
     private Node[] items;
     private int size;
     private int capacity;
-    private final HashMap<T, Integer> map;
 
     public ArrayHeapMinPQ(int capacity) {
         items = new ArrayHeapMinPQ.Node[capacity + 1];

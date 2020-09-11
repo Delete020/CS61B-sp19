@@ -1,6 +1,7 @@
 package bearmaps;
 
 import java.util.List;
+
 import static bearmaps.Point.distance;
 
 public class KDTree implements PointSet {
@@ -68,10 +69,10 @@ public class KDTree implements PointSet {
     }
 
     private class Node implements Comparable<Point> {
-        private Point point;
+        private final Point point;
         private Node right;
         private Node left;
-        private boolean orientation;
+        private final boolean orientation;
 
         Node(Point p, boolean horizontal) {
             point = p;

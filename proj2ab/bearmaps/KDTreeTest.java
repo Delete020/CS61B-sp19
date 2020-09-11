@@ -1,17 +1,17 @@
 package bearmaps;
 
+import edu.princeton.cs.algs4.Stopwatch;
 import org.junit.Test;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-import edu.princeton.cs.algs4.Stopwatch;
 
 import static org.junit.Assert.assertEquals;
 
 public class KDTreeTest {
 
-    private static Random rd = new Random(500);
+    private static final Random rd = new Random(500);
 
     public static void buildKDTreeTest() {
         Point p1 = new Point(2, 3);
@@ -28,7 +28,7 @@ public class KDTreeTest {
     private List<Point> randomPoints(int n) {
         List<Point> points = new ArrayList<>();
         for (int i = 0; i < n; i++) {
-            points.add(new Point (rd.nextDouble() * 1000, rd.nextDouble() * 1000));
+            points.add(new Point(rd.nextDouble() * 1000, rd.nextDouble() * 1000));
         }
         return points;
     }
@@ -63,13 +63,13 @@ public class KDTreeTest {
         for (Point p : queries) {
             kd.nearest(p.getX(), p.getY());
         }
-        System.out.println("Total time elapsed: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed: " + sw.elapsedTime() + " seconds.");
 
         sw = new Stopwatch();
         for (Point p : queries) {
             nn.nearest(p.getX(), p.getY());
         }
-        System.out.println("Total time elapsed: " + sw.elapsedTime() +  " seconds.");
+        System.out.println("Total time elapsed: " + sw.elapsedTime() + " seconds.");
     }
 
 }
