@@ -42,13 +42,13 @@ public class BnBSolver {
         List<Bed> lessBed = new ArrayList<>();
         List<Bed> equalBed = new ArrayList<>();
         List<Bed> greaterBed = new ArrayList<>();
-        quickSortBed(beds, bearPivot, lessBed, equalBed, greaterBed);
+        partitionBed(beds, bearPivot, lessBed, equalBed, greaterBed);
 
         Bed bedPivot = equalBed.get(0);
         List<Bear> lessBear = new ArrayList<>();
         List<Bear> equalBear = new ArrayList<>();
         List<Bear> greaterBear = new ArrayList<>();
-        quickSortBear(bears, bedPivot, lessBear, equalBear, greaterBear);
+        partitionBear(bears, bedPivot, lessBear, equalBear, greaterBear);
 
         solvedBeds.addAll(equalBed);
         solvedBears.addAll(equalBear);
@@ -61,7 +61,7 @@ public class BnBSolver {
         return list.get((int) (Math.random() * list.size()));
     }
 
-    private void quickSortBed(List<Bed> beds, Bear pivot, List<Bed> less,
+    private void partitionBed(List<Bed> beds, Bear pivot, List<Bed> less,
                               List<Bed> equal, List<Bed> greater) {
         for (Bed bed : beds) {
             if (bed.compareTo(pivot) > 0) {
@@ -74,8 +74,8 @@ public class BnBSolver {
         }
     }
 
-    private void quickSortBear(List<Bear> bears, Bed pivot, List<Bear> less,
-                               List<Bear> equal, List<Bear> greater) {
+    private void partitionBear(List<Bear> bears, Bed pivot, List<Bear> less,
+                              List<Bear> equal, List<Bear> greater) {
         for (Bear bear : bears) {
             if (bear.compareTo(pivot) > 0) {
                 greater.add(bear);
