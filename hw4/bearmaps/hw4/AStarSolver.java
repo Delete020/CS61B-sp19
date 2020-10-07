@@ -12,22 +12,23 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
 
     private SolverOutcome outcome;
     private double solutionWeight;
-    private List<Vertex> solution;
+    private LinkedList<Vertex> solution;
     private double timeSpent;
     private int numStatesExplored;
 
     public AStarSolver(AStarGraph<Vertex> input, Vertex start, Vertex end, double timeout) {
-        Stopwatch sw = new Stopwatch();
 
         ArrayHeapMinPQ<Vertex> fringe = new ArrayHeapMinPQ<>();
         Map<Vertex, Double> distTo = new HashMap<>();
         Map<Vertex, Vertex> edgeTo = new HashMap<>();
         solution = new LinkedList<>();
 
+        Stopwatch sw = new Stopwatch();
         distTo.put(start, 0.0);
         fringe.add(start, distTo.get(start));
 
         while (fringe.size() != 0) {
+
             if (timeSpent > timeout) {
                 outcome = SolverOutcome.TIMEOUT;
                 solutionWeight = 0;
@@ -36,12 +37,18 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
             }
 
             Vertex smallest = fringe.removeSmallest();
-            solution.add(smallest);
             List<WeightedEdge<Vertex>> neighborEdges = input.neighbors(smallest);
 
             if (smallest.equals(end)) {
                 solutionWeight = distTo.get(smallest);
                 outcome = SolverOutcome.SOLVED;
+
+                solution.addFirst(smallest);
+                while (!smallest.equals(start)) {
+                    solution.addFirst(edgeTo.get(smallest));
+                    smallest = edgeTo.get(smallest);
+                }
+
                 timeSpent = sw.elapsedTime();
                 return;
             }
@@ -51,7 +58,7 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                 Vertex q = e.to();
                 double w = e.weight();
 
-                if (!fringe.contains(q)) {
+                if (!distTo.containsKey(q)) {
                     double INF = Double.POSITIVE_INFINITY;
                     distTo.put(q, INF);
                 }
@@ -69,12 +76,13 @@ public class AStarSolver<Vertex> implements ShortestPathsSolver<Vertex> {
                 }
             }
 
-            numStatesExplored++;
+            numStatesExplored += 1;
             timeSpent = sw.elapsedTime();
         }
 
         outcome = SolverOutcome.UNSOLVABLE;
         solution.clear();
+        numStatesExplored = 0;
         timeSpent = sw.elapsedTime();
     }
 
