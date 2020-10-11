@@ -1,7 +1,9 @@
 package bearmaps.proj2c;
 
 import bearmaps.hw4.AStarSolver;
+import bearmaps.hw4.WeightedEdge;
 
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
 import java.util.regex.Matcher;
@@ -41,7 +43,56 @@ public class Router {
      */
     public static List<NavigationDirection> routeDirections(AugmentedStreetMapGraph g, List<Long> route) {
         /* fill in for part IV */
-        return null;
+        List<NavigationDirection> nd = new LinkedList<>();
+        List<WeightedEdge<Long>> ways = getWays(g, route);
+
+        int i = 0;
+        int direction = 0;
+
+        while (i < ways.size()) {
+            NavigationDirection curr = new NavigationDirection();
+            curr.way = ways.get(i).getName();
+            curr.direction = direction;
+
+            double distance = 0;
+            while (i < ways.size() && ways.get(i).getName().equals(curr.way)) {
+                distance += ways.get(i).weight();
+                i += 1;
+            }
+
+            if (i < ways.size()) {
+                direction = calDirection(i, g, ways);
+            }
+            curr.distance = distance;
+            nd.add(curr);
+        }
+
+        return nd;
+    }
+
+    private static int calDirection(int i, AugmentedStreetMapGraph g, List<WeightedEdge<Long>> ways) {
+        Long prevRoute = ways.get(i - 1).from();
+        Long currRoute = ways.get(i).from();
+        Long nextRoute = ways.get(i).to();
+        double prevBearing = NavigationDirection.bearing(g.lon(prevRoute), g.lon(currRoute), g.lat(prevRoute), g.lat(currRoute));
+        double currBearing = NavigationDirection.bearing(g.lon(currRoute), g.lon(nextRoute), g.lat(currRoute), g.lat(nextRoute));
+        return NavigationDirection.getDirection(prevBearing, currBearing);
+    }
+
+    private static List<WeightedEdge<Long>> getWays(AugmentedStreetMapGraph g, List<Long> route) {
+        List<WeightedEdge<Long>> ways = new LinkedList<>();
+        long currVertex;
+        long nextVertex;
+        for (int i = 1; i < route.size(); i += 1) {
+            currVertex = route.get(i - 1);
+            nextVertex = route.get(i);
+            for (WeightedEdge<Long> edge : g.neighbors(currVertex)) {
+                if (edge.to().equals(nextVertex)) {
+                    ways.add(edge);
+                }
+            }
+        }
+        return ways;
     }
 
     /**
